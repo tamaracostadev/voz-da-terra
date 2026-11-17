@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+.env
+.streamlit/secrets.toml
+.DS_Store
+
+# O CSV bruto do MAPA (249 MB) não é versionado.
+data/raw/*
+!data/raw/.gitkeep
+
+# Apenas a versão curada comprimida do MVP vai para o GitHub.
+data/processed/zarc_feijao_mg_sequeiro.csv
