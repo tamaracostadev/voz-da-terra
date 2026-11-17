@@ -13,10 +13,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from .constants import DEC_COLS, MONTH_LABELS, RISK_CODES, SOIL_LABELS
+from .constants import DEC_COLS, RISK_CODES, SOIL_LABELS
 from .metrics import (
     load_processed, municipality_ranking, municipality_window_matrix,
-    period_coverage, soil_period_heatmap,
+    period_coverage, recommended_decendios, soil_period_heatmap,
 )
 
 
@@ -91,18 +91,23 @@ def generate_analysis(data_path: Path, reports_dir: Path) -> dict:
     fig, ax = plt.subplots(figsize=(11, 4.8), constrained_layout=True)
     colors = {20: "#137B62", 30: "#B26E17", 40: "#4361AA"}
     coverage_by_threshold = {}
+    active_periods = recommended_decendios(data)
     for threshold in RISK_CODES:
         matrix = municipality_window_matrix(data, threshold)
         period = period_coverage(matrix)
         coverage_by_threshold[threshold] = period
+        visible_period = period[period["decendio"].isin(active_periods)]
         ax.plot(
-            period["decendio"], period["municipios"],
+            visible_period["decendio"], visible_period["municipios"],
             color=colors[threshold], marker="o", markersize=3.2,
             linewidth=2, label=f"Risco até {threshold}%",
         )
-    ax.set_xticks(list(range(2, 37, 3)), MONTH_LABELS)
-    ax.set_xlim(1, 36)
-    ax.set_xlabel("Período no calendário (decêndios)")
+    # Focar os períodos com indicação evita 27 pontos sem informação útil.
+    # As demais datas continuam no CSV e não são apagadas da auditoria.
+    if active_periods:
+        ax.set_xticks(active_periods)
+        ax.set_xlim(min(active_periods) - 0.25, max(active_periods) + 0.25)
+    ax.set_xlabel("Decêndio (outubro a dezembro, neste recorte)")
     ax.set_ylabel("Municípios com ao menos uma indicação")
     ax.set_title("Feijão de sequeiro em MG — municípios por janela de plantio")
     ax.grid(axis="y", alpha=0.22)

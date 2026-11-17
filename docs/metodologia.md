@@ -14,6 +14,10 @@ Recorte escolhido: `Nome_cultura == "Feijão"`, `UF == "MG"`, `Nome_Outros_Manej
 
 ## 3. Tratamento e indicadores
 
+**Classes AD:** a classificação do MAPA considera a *água disponível no solo*, em milímetros de água por centímetro de solo. AD1 indica a faixa mais baixa (de 0,34 até menos de 0,46 mm/cm), enquanto AD6 indica valores a partir de 1,40 mm/cm. As faixas intermediárias são apresentadas no painel. Elas não representam uma escala de qualidade geral ou análise individual da propriedade. Fonte: [MAPA — classificação de solos por água disponível](https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/classificacao-de-solo).
+
+**Janela do painel:** o intervalo selecionável é derivado dos decêndios com alguma indicação no recorte, atualmente 28–36. Os decêndios 1–27 não foram removidos da base bruta nem da base curada: os respectivos códigos não contêm indicação de plantio nesta combinação de cultura, UF e manejo.
+
 O ETL faz leitura em blocos (`chunksize=50_000`), conserva geocódigos como strings, valida a safra, valida códigos de decêndio `{0, 20, 30, 40}` e descarta linhas com município vazio ou geocódigo fora do padrão de sete dígitos.
 
 Para dado limite `R ∈ {20, 30, 40}`, um decêndio é considerado **indicado** se o código original for um dos valores em `{20, 30, 40}` **menores ou iguais a R**. Código `0` não é uma indicação. Para a contagem por município e decêndio, utilizamos `any()` sobre as combinações de solo/ciclo do município; ou seja, **cada município conta no máximo uma vez por decêndio**. A contagem geral de municípios com indicação usa `any()` sobre os 36 decêndios. Essa união é útil para cobertura territorial, mas **não determina aptidão para qualquer propriedade daquele município**.

@@ -28,6 +28,22 @@ SOIL_LABELS = {
     "15": "AD5",
     "16": "AD6",
 }
+
+# Instrução Normativa SPA/MAPA nº 1/2022 (com alteração de 05/08/2022).
+# AD = água disponível no solo; o valor é expresso em mm de água/cm de solo.
+SOIL_AD_RANGES = {
+    "11": "0,34 a <0,46 mm/cm",
+    "12": "0,46 a <0,61 mm/cm",
+    "13": "0,61 a <0,80 mm/cm",
+    "14": "0,80 a <1,06 mm/cm",
+    "15": "1,06 a <1,40 mm/cm",
+    "16": "≥1,40 mm/cm",
+}
+SOIL_CLASSIFICATION_URL = (
+    "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/"
+    "programa-nacional-de-zoneamento-agricola-de-risco-climatico/"
+    "classificacao-de-solo"
+)
 CYCLE_LABELS = {"20": "Grupo I", "21": "Grupo II", "22": "Grupo III"}
 
 MONTH_LABELS = (

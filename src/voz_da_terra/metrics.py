@@ -38,6 +38,18 @@ def filter_scope(
     return selected.copy()
 
 
+def recommended_decendios(frame: pd.DataFrame) -> list[int]:
+    """Períodos que possuem ao menos uma indicação oficial no conjunto lido.
+
+    Código zero não significa ausência de dados: significa que aquele período
+    não tem recomendação no recorte. Mantemos as 36 colunas no arquivo curado.
+    """
+    if frame.empty:
+        return []
+    recommendations = frame[list(DEC_COLS)].isin(RISK_CODES).any(axis=0)
+    return [int(column[3:]) for column, present in recommendations.items() if present]
+
+
 def municipality_window_matrix(frame: pd.DataFrame, max_risk: int) -> pd.DataFrame:
     """Matriz booleana município x decêndio.
 

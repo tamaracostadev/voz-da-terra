@@ -11,10 +11,10 @@ import streamlit as st
 
 from voz_da_terra.constants import (
     CYCLE_LABELS, DEC_COLS, DICTIONARY_URL,
-    SOIL_LABELS, SOURCE_URL,
+    SOIL_AD_RANGES, SOIL_CLASSIFICATION_URL, SOIL_LABELS, SOURCE_URL,
 )
 from voz_da_terra.metrics import (
-    filter_scope, load_processed, municipality_ranking,
+    filter_scope, load_processed, municipality_ranking, recommended_decendios,
     municipality_window_matrix, period_coverage, soil_period_heatmap,
 )
 
@@ -65,25 +65,44 @@ max_risk = st.sidebar.select_slider(
 )
 soil_codes = sorted(data["Cod_Solo"].unique())
 selected_soils = st.sidebar.multiselect(
-    "Classes de solo (vazio = todas)",
+    "Água disponível no solo (vazio = todas)",
     options=soil_codes,
     format_func=lambda code: SOIL_LABELS.get(code, f"Solo {code}"),
+    placeholder="Todas as classes de solo",
+    help="AD1 tem menor disponibilidade de água, AD6 tem maior. A classificação exige análise do solo.",
 )
+with st.sidebar.expander("O que são AD1 a AD6?"):
+    st.markdown(
+        "**AD significa água disponível no solo:** quantidade de água que o solo "
+        "consegue armazenar e oferecer às plantas. **AD1** representa a menor "
+        "disponibilidade e **AD6**, a maior. Não é uma nota de qualidade da terra."
+    )
+    for code in soil_codes:
+        st.caption(f"**{SOIL_LABELS.get(code, code)}:** {SOIL_AD_RANGES.get(code, 'Consultar portaria')}")
+    st.markdown(f"[Como identificar a classe do seu solo — MAPA]({SOIL_CLASSIFICATION_URL})")
 cycle_codes = sorted(data["Cod_Ciclo"].unique())
 selected_cycles = st.sidebar.multiselect(
     "Grupos de cultivar (vazio = todos)",
     options=cycle_codes,
     format_func=lambda code: CYCLE_LABELS.get(code, code),
+    placeholder="Todos os grupos de cultivar",
 )
 selected_cities = st.sidebar.multiselect(
     "Municípios (vazio = todos)",
     options=sorted(data["municipio"].unique()),
+    placeholder="Todos os municípios",
 )
+active_decendios = recommended_decendios(data)
+if not active_decendios:
+    st.error("A base não contém decêndios com indicação do ZARC neste recorte.")
+    st.stop()
 range_start, range_end = st.sidebar.slider(
-    "Intervalo de decêndios",
-    min_value=1,
-    max_value=36,
-    value=(28, 36),
+    "Intervalo de decêndios com indicação",
+    min_value=min(active_decendios),
+    max_value=max(active_decendios),
+    value=(min(active_decendios), max(active_decendios)),
+    help="O intervalo é calculado a partir dos períodos com alguma indicação na base, "
+    "antes dos filtros de solo, cultivar e município. No recorte atual: 28–36.",
 )
 
 filtered = filter_scope(

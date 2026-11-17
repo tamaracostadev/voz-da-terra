@@ -9,6 +9,7 @@ import pandas as pd
 from voz_da_terra.constants import DEC_COLS, decendio_label
 from voz_da_terra.metrics import (
     filter_scope, municipality_ranking, municipality_window_matrix,
+    recommended_decendios,
     period_coverage, soil_period_heatmap,
 )
 
@@ -68,6 +69,10 @@ class MetricsTests(unittest.TestCase):
     def test_bad_risk_is_rejected(self):
         with self.assertRaises(ValueError):
             municipality_window_matrix(self.frame, 50)
+
+    def test_recommended_decendios_ignores_zero_codes(self):
+        self.assertEqual([28, 29, 30], recommended_decendios(self.frame))
+        self.assertEqual([], recommended_decendios(self.frame.iloc[0:0]))
 
     def test_label(self):
         self.assertIn("out", decendio_label(28))
