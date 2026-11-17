@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "voz-da-terra"
+version = "0.1.0"
+description = "CitizenTech educacional: dados ZARC para planejamento agrícola"
+requires-python = ">=3.11"
+dependencies = [
+  "pandas>=2.2,<3",
+  "numpy>=1.26,<3",
+  "matplotlib>=3.8,<4",
+  "streamlit>=1.40,<2",
+  "plotly>=5.20,<7",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,97 @@
+{
+  "recorte": "Feijão, Minas Gerais, manejo sequeiro, safra 2026/2027",
+  "registros": 8025,
+  "municipios_distintos": 853,
+  "classes_solo": [
+    "AD1",
+    "AD2",
+    "AD3",
+    "AD4",
+    "AD5",
+    "AD6"
+  ],
+  "grupos_cultivar": [
+    "20",
+    "21"
+  ],
+  "municipios_com_indicacao_por_risco_maximo": {
+    "20": 663,
+    "30": 774,
+    "40": 853
+  },
+  "pico_decendio_risco_ate_40": {
+    "decendio": 31,
+    "municipios": 850
+  },
+  "municipios_com_mais_janelas_ate_20": [
+    {
+      "geocodigo": "3100807",
+      "decendios_indicados": 9,
+      "municipio": "Aguanil"
+    },
+    {
+      "geocodigo": "3101409",
+      "decendios_indicados": 9,
+      "municipio": "Albertina"
+    },
+    {
+      "geocodigo": "3101607",
+      "decendios_indicados": 9,
+      "municipio": "Alfenas"
+    },
+    {
+      "geocodigo": "3101904",
+      "decendios_indicados": 9,
+      "municipio": "Alpinópolis"
+    },
+    {
+      "geocodigo": "3102001",
+      "decendios_indicados": 9,
+      "municipio": "Alterosa"
+    },
+    {
+      "geocodigo": "3102100",
+      "decendios_indicados": 9,
+      "municipio": "Alto Rio Doce"
+    },
+    {
+      "geocodigo": "3103306",
+      "decendios_indicados": 9,
+      "municipio": "Aracitaba"
+    },
+    {
+      "geocodigo": "3104304",
+      "decendios_indicados": 9,
+      "municipio": "Areado"
+    },
+    {
+      "geocodigo": "3104601",
+      "decendios_indicados": 9,
+      "municipio": "Astolfo Dutra"
+    },
+    {
+      "geocodigo": "3107109",
+      "decendios_indicados": 9,
+      "municipio": "Boa Esperança"
+    }
+  ],
+  "hipotese_solo_pareada": {
+    "status": "avaliado",
+    "hipotese_nula": "Média das diferenças pareadas no número de decêndios indicados igual a zero",
+    "grupo_cultivar": "20",
+    "solo_a": "11",
+    "solo_b": "13",
+    "risco_maximo": 20,
+    "municipios_pareados": 363,
+    "media_diferenca_b_menos_a": 3.198,
+    "mediana_diferenca": 3.0,
+    "permutacoes": 2000,
+    "p_valor_exploratorio_bicaudal": 0.0005,
+    "limites": "Resultado exploratório, não causal. A base não é amostra aleatória; um p-valor não mede a eficácia do plantio nem a chance de perda."
+  },
+  "avisos": [
+    "A união por município não substitui informações de solo e ciclo da propriedade.",
+    "Os números são janelas oficiais do ZARC, não previsões do tempo.",
+    "Não há estimativa observada de perdas evitadas ou agricultores atendidos."
+  ]
+}

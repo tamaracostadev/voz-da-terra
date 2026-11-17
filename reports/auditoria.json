@@ -1,0 +1,53 @@
+{
+  "source_url": "https://dados.agricultura.gov.br/dataset/6d3d141c-885e-41a4-ab7f-dc8ff323b96f/resource/139e5a60-1f43-4cc8-aeab-a35dbbf816c0/download/dados-abertos-tabua-de-risco-safra-2026-2027.csv",
+  "dictionary_url": "https://dados.agricultura.gov.br/dataset/6d3d141c-885e-41a4-ab7f-dc8ff323b96f/resource/bebb0ebb-bc75-460c-b900-a7a1ebd87bee/download/dicionario-de-dados-tabua-de-risco-2026.pdf",
+  "source_sha256": "87d50518bb0746acc32fe6160ded322a01221fe7749d4900cb01d7f7a0ea7543",
+  "source_bytes": 260600358,
+  "source_safra": "2026/2027",
+  "source_rows": 1189856,
+  "source_cultures": 22,
+  "source_ufs": 27,
+  "source_distinct_geocodes_including_incomplete": 5573,
+  "source_distinct_named_municipalities": 5571,
+  "rows_with_missing_municipal_label_or_invalid_geocode": 10,
+  "unexpected_dec_code_cells": 0,
+  "scope": {
+    "cultura": "Feijão",
+    "uf": "MG",
+    "manejo": "Sequeiro",
+    "rows": 8025,
+    "municipalities": 853,
+    "soil_codes": [
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16"
+    ],
+    "cycle_codes": [
+      "20",
+      "21"
+    ],
+    "portarias": [
+      "Port.13_de_16-03-2026"
+    ],
+    "decendios_with_recommendation": [
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36
+    ],
+    "municipalities_by_max_risk": {
+      "20": 663,
+      "30": 774,
+      "40": 853
+    }
+  },
+  "interpretation": "O município entra na contagem se existir pelo menos uma combinação de solo e ciclo com indicação no decêndio. Isso não equivale a recomendação para todas as propriedades do município."
+}
