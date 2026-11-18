@@ -46,9 +46,11 @@ streamlit run dashboard/app.py
 
 O painel contém **três tipos de gráfico** (linha, barras horizontais e mapa de calor), KPIs, três insights dinâmicos, download de CSV e filtros por município, classe de solo, grupo de cultivar, decêndio e limite de risco (20%/30%/40%).
 
-### Acesso pelo celular
+### Layout em computador e celular
 
-O mesmo endereço do Streamlit abre em navegadores de computador e celular. Os filtros ficam **no conteúdo principal**, sem depender do menu lateral: o limite de risco aparece em opções de toque; solo e cultivar usam botões que podem ser selecionados/desmarcados; municípios são encontrados digitando parte do nome (sem exigir acentos), inclusive vários nomes separados por vírgulas. Os gráficos são exibidos **um abaixo do outro** para aproveitar a largura de telas pequenas.
+O mesmo endereço do Streamlit abre em navegadores de computador e celular. A partir de **1024 px**, os filtros ficam em uma **barra lateral** e os gráficos de ranking e solo aparecem lado a lado. Abaixo desse breakpoint, os filtros ficam **no topo do conteúdo**, e os gráficos são empilhados para aproveitar a largura da tela. As seleções são preservadas ao redimensionar a janela.
+
+Municípios usam **seleção múltipla com busca**; sem seleção, a consulta considera todo o estado. O limite de risco aparece em opções de toque; solo e cultivar usam botões que podem ser selecionados/desmarcados.
 
 **Limite importante:** este é um site responsivo, **não** um aplicativo Android/iOS nem um serviço offline. É preciso acesso à internet para consultar uma implantação remota. Ainda é necessário testar a usabilidade com pessoas e aparelhos reais; não temos validação de campo ou testes com produtores.
 

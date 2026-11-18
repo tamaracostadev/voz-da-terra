@@ -39,7 +39,7 @@ O **Voz da Terra** organiza janelas oficiais do ZARC em um painel com consulta p
 - Pipeline **Pandas** para validar, filtrar e curar o CSV original.
 - Módulo analítico **NumPy + Matplotlib**: estatística descritiva e hipótese exploratória.
 - Dashboard **Streamlit + Plotly**: filtros, KPIs, gráficos de linha, barras e mapa de calor.
-- Layout reorganizado para consulta pelo **celular**: busca por município, opções por toque e gráficos empilhados. **Responsividade técnica implementada; acessibilidade com produtores ainda precisa ser validada.**
+- Layout responsivo: filtros na **barra lateral do computador** e **no topo em telas menores**, seleção múltipla de municípios com busca e opções por toque. Gráficos empilhados no celular. **Responsividade técnica implementada; acessibilidade com produtores ainda precisa ser validada.**
 - Arquivo curado comprimido e metadados auditáveis no repositório.
 
 **Evidência para inserir:** capturas reais do Streamlit em computador **e no navegador de um celular**, com filtros à vista. Não usar imagens geradas artificialmente como captura do produto.

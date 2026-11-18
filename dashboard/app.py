@@ -8,6 +8,7 @@ from pathlib import Path
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
+import streamlit.components.v1 as components
 
 from voz_da_terra.constants import (
     CYCLE_LABELS, DEC_COLS, DICTIONARY_URL,
@@ -15,7 +16,7 @@ from voz_da_terra.constants import (
 )
 from voz_da_terra.metrics import (
     filter_scope, load_processed, municipality_ranking, recommended_decendios,
-    municipality_window_matrix, period_coverage, search_municipalities,
+    municipality_window_matrix, period_coverage,
     soil_period_heatmap,
 )
 
@@ -25,6 +26,10 @@ CURATED_PATH = ROOT / "data" / "processed" / "zarc_feijao_mg_sequeiro.csv.gz"
 AUDIT_PATH = ROOT / "reports" / "auditoria.json"
 
 st.set_page_config(page_title="Voz da Terra | ZARC", page_icon="🌱", layout="wide")
+st.markdown(
+    f"<style>{(ROOT / 'dashboard' / 'styles.css').read_text(encoding='utf-8')}</style>",
+    unsafe_allow_html=True,
+)
 
 
 @st.cache_data(show_spinner="Carregando janelas oficiais de plantio...")
@@ -64,25 +69,16 @@ if not active_decendios:
     st.error("A base não contém decêndios com indicação do ZARC neste recorte.")
     st.stop()
 
-st.markdown("### Faça sua consulta")
-with st.expander("🔎 Buscar e ajustar filtros", expanded=True):
-    city_query = st.text_input(
-        "1. Município (opcional)",
-        placeholder="Ex.: Uberaba ou Uberaba, Uberlândia",
-        help="Digite parte do nome. Para comparar vários municípios, separe os nomes por vírgulas. "
-        "Deixe vazio para considerar todo o estado.",
+with st.container(key="dashboard_filters"):
+    st.markdown("### Filtros da análise")
+    selected_cities = st.multiselect(
+        "1. Municípios (sem seleção = todos)",
+        options=sorted(data["municipio"].unique()),
+        placeholder="Todos os municípios",
+        help="Digite para buscar e selecione um ou mais municípios para comparar. "
+        "Deixe sem seleção para considerar todo o estado.",
+        key="municipalities",
     )
-    selected_cities = search_municipalities(data["municipio"].unique(), city_query)
-    if city_query.strip():
-        if selected_cities:
-            preview = ", ".join(selected_cities[:4])
-            remaining = len(selected_cities) - 4
-            extra = f" e mais {remaining}" if remaining > 0 else ""
-            st.caption(f"{len(selected_cities)} município(s) encontrado(s): {preview}{extra}.")
-            if len(selected_cities) > 10:
-                st.caption("Para uma consulta mais específica, digite mais letras do nome.")
-        else:
-            st.warning("Nenhum município encontrado. Confira a escrita ou limpe o campo.")
 
     max_risk = st.radio(
         "2. Limite máximo de risco considerado",
@@ -113,18 +109,21 @@ with st.expander("🔎 Buscar e ajustar filtros", expanded=True):
         help="Apenas os decêndios com alguma indicação no recorte aparecem neste intervalo.",
     )
 
-with st.expander("Entenda as classes AD1 a AD6"):
-    st.markdown(
-        "**AD significa água disponível no solo:** quantidade de água que o solo consegue "
-        "armazenar e oferecer às plantas. **AD1** representa a menor disponibilidade e "
-        "**AD6**, a maior. Não é uma nota de qualidade da terra."
-    )
-    for code in soil_codes:
-        st.caption(f"**{SOIL_LABELS.get(code, code)}:** {SOIL_AD_RANGES.get(code, 'Consultar portaria')}")
-    st.markdown(f"[Como identificar a classe do seu solo — MAPA]({SOIL_CLASSIFICATION_URL})")
+    with st.expander("Entenda as classes AD1 a AD6"):
+        st.markdown(
+            "**AD significa água disponível no solo:** quantidade de água que o solo consegue "
+            "armazenar e oferecer às plantas. **AD1** representa a menor disponibilidade e "
+            "**AD6**, a maior. Não é uma nota de qualidade da terra."
+        )
+        for code in soil_codes:
+            st.caption(f"**{SOIL_LABELS.get(code, code)}:** {SOIL_AD_RANGES.get(code, 'Consultar portaria')}")
+        st.markdown(f"[Como identificar a classe do seu solo — MAPA]({SOIL_CLASSIFICATION_URL})")
 
-if city_query.strip() and not selected_cities:
-    st.stop()
+    embed_html = getattr(st, "iframe", components.html)
+    embed_html(
+        (ROOT / "dashboard" / "multiselect_toggle.html").read_text(encoding="utf-8"),
+        height=1,
+    )
 
 filtered = filter_scope(
     data,
@@ -184,47 +183,51 @@ fig_line.update_xaxes(dtick=1)
 st.plotly_chart(fig_line, use_container_width=True, config={"displayModeBar": False})
 st.caption("Série dos períodos indicados pela portaria; não é histórico meteorológico.")
 
-st.markdown("### 2. Municípios com mais períodos indicados")
-ranking_top = ranking[ranking["decendios_indicados"].gt(0)].head(10)
-if ranking_top.empty:
-    st.warning("Não há municípios com recomendações neste nível de risco e intervalo.")
-else:
-    fig_bar = px.bar(
-        ranking_top.sort_values("decendios_indicados"),
-        x="decendios_indicados",
-        y="municipio",
-        orientation="h",
-        labels={
-            "decendios_indicados": "Decêndios com indicação",
-            "municipio": "Município",
-        },
-        color_discrete_sequence=["#4361AA"],
-    )
-    fig_bar.update_layout(height=420, margin=dict(l=10, r=10, t=10, b=10))
-    fig_bar.update_yaxes(automargin=True)
-    st.plotly_chart(fig_bar, use_container_width=True, config={"displayModeBar": False})
-st.caption("Ranking por número de períodos, não por produção agrícola.")
+with st.container(key="comparison_charts"):
+    left, right = st.columns(2, gap="large")
+    with left:
+        st.markdown("### 2. Municípios com mais períodos indicados")
+        ranking_top = ranking[ranking["decendios_indicados"].gt(0)].head(10)
+        if ranking_top.empty:
+            st.warning("Não há municípios com recomendações neste nível de risco e intervalo.")
+        else:
+            fig_bar = px.bar(
+                ranking_top.sort_values("decendios_indicados"),
+                x="decendios_indicados",
+                y="municipio",
+                orientation="h",
+                labels={
+                    "decendios_indicados": "Decêndios com indicação",
+                    "municipio": "Município",
+                },
+                color_discrete_sequence=["#4361AA"],
+            )
+            fig_bar.update_layout(height=420, margin=dict(l=10, r=10, t=10, b=10))
+            fig_bar.update_yaxes(automargin=True)
+            st.plotly_chart(fig_bar, use_container_width=True, config={"displayModeBar": False})
+        st.caption("Ranking por número de períodos, não por produção agrícola.")
 
-st.markdown("### 3. Indicações por classe de solo")
-if heatmap.empty:
-    st.warning("Sem solos disponíveis nos filtros selecionados.")
-else:
-    fig_heat = go.Figure(data=go.Heatmap(
-        z=heatmap.to_numpy(dtype=int),
-        x=[int(c[3:]) for c in heatmap.columns],
-        y=heatmap.index.tolist(),
-        colorscale="YlGnBu",
-        colorbar=dict(title="Municípios"),
-        hovertemplate="Solo %{y}<br>Decêndio %{x}<br>Municípios %{z}<extra></extra>",
-    ))
-    fig_heat.update_layout(
-        height=380,
-        xaxis_title="Decêndio",
-        yaxis_title="Água disponível no solo",
-        margin=dict(l=10, r=10, t=10, b=10),
-    )
-    st.plotly_chart(fig_heat, use_container_width=True, config={"displayModeBar": False})
-st.caption("Cada célula conta municípios únicos para a classe de solo indicada.")
+    with right:
+        st.markdown("### 3. Indicações por classe de solo")
+        if heatmap.empty:
+            st.warning("Sem solos disponíveis nos filtros selecionados.")
+        else:
+            fig_heat = go.Figure(data=go.Heatmap(
+                z=heatmap.to_numpy(dtype=int),
+                x=[int(c[3:]) for c in heatmap.columns],
+                y=heatmap.index.tolist(),
+                colorscale="YlGnBu",
+                colorbar=dict(title="Municípios"),
+                hovertemplate="Solo %{y}<br>Decêndio %{x}<br>Municípios %{z}<extra></extra>",
+            ))
+            fig_heat.update_layout(
+                height=380,
+                xaxis_title="Decêndio",
+                yaxis_title="Água disponível no solo",
+                margin=dict(l=10, r=10, t=10, b=10),
+            )
+            st.plotly_chart(fig_heat, use_container_width=True, config={"displayModeBar": False})
+        st.caption("Cada célula conta municípios únicos para a classe de solo indicada.")
 
 st.markdown("### Três insights a partir dos filtros")
 if periods["municipios"].max() > 0:

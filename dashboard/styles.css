@@ -1,0 +1,38 @@
+/* Um único conjunto de widgets mantém as seleções ao mudar a largura da tela. */
+.st-key-dashboard_filters {
+    padding: 1.25rem;
+    background: #f2f7f5;
+    border: 1px solid #dce7e2;
+    border-radius: 0.75rem;
+}
+
+@media (min-width: 1024px) {
+    [data-testid="stMainBlockContainer"] {
+        padding-left: 24rem;
+        padding-right: 3rem;
+    }
+
+    .st-key-dashboard_filters {
+        position: fixed;
+        inset: 3.75rem auto 0 0;
+        width: 21rem;
+        max-height: calc(100dvh - 3.75rem);
+        overflow-y: auto;
+        padding: 1.5rem;
+        border: 0;
+        border-right: 1px solid #dce7e2;
+        border-radius: 0;
+        z-index: 10;
+    }
+}
+
+@media (max-width: 1023px) {
+    .st-key-comparison_charts [data-testid="stHorizontalBlock"] {
+        flex-direction: column;
+    }
+
+    .st-key-comparison_charts [data-testid="stColumn"] {
+        width: 100%;
+        flex: 1 1 100%;
+    }
+}

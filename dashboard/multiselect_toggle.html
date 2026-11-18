@@ -1,0 +1,40 @@
+<script>
+(() => {
+  const app = window.parent;
+  const doc = app.document;
+  const selector = '.st-key-municipalities';
+  // O listener delegado continua válido após os reruns, sem duplicar eventos.
+  if (app.__vozDaTerraMultiselectToggle) return;
+  app.__vozDaTerraMultiselectToggle = true;
+  let closingControl = null;
+
+  doc.addEventListener('pointerdown', (event) => {
+    closingControl = null;
+    if (!(event.target instanceof app.Element)) return;
+    const control = event.target.closest(selector);
+    const input = control?.querySelector('[role="combobox"]');
+    if (input?.getAttribute('aria-expanded') !== 'true') return;
+    const field = input.closest('[data-baseweb="select"]')
+      ?? input.closest('[data-testid="stMultiSelectTagsContainer"]')?.parentElement;
+    if (!field?.contains(event.target)) return;
+    if (event.target.closest('[data-tag], [data-baseweb="tag"], button[aria-label^="Clear"]')) return;
+
+    // Fecha antes que o controle nativo trate o segundo clique como outra abertura.
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    input.dispatchEvent(new app.KeyboardEvent('keydown', {
+      key: 'Escape', code: 'Escape', bubbles: true, cancelable: true,
+    }));
+    input.blur();
+    closingControl = control;
+  }, true);
+
+  doc.addEventListener('click', (event) => {
+    if (!closingControl || !(event.target instanceof app.Element)) return;
+    if (event.target.closest(selector) !== closingControl) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    closingControl = null;
+  }, true);
+})();
+</script>
