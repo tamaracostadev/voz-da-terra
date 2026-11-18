@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from pathlib import Path
+import unicodedata
+from collections.abc import Iterable
 
 import pandas as pd
 
@@ -48,6 +50,27 @@ def recommended_decendios(frame: pd.DataFrame) -> list[int]:
         return []
     recommendations = frame[list(DEC_COLS)].isin(RISK_CODES).any(axis=0)
     return [int(column[3:]) for column, present in recommendations.items() if present]
+
+
+def search_municipalities(municipalities: Iterable[str], query: str) -> list[str]:
+    """Busca municipal por trechos de nome, sem diferença entre acentos/maiúsculas.
+
+    Vários termos separados por vírgula permitem comparar cidades sem precisar
+    de um multiselect com centenas de opções em uma tela pequena.
+    """
+    def normalize(value: str) -> str:
+        return "".join(
+            char for char in unicodedata.normalize("NFKD", value.casefold())
+            if not unicodedata.combining(char)
+        )
+
+    terms = [normalize(part.strip()) for part in query.split(",") if part.strip()]
+    if not terms:
+        return []
+    return sorted({
+        municipality for municipality in municipalities
+        if any(term in normalize(municipality) for term in terms)
+    })
 
 
 def municipality_window_matrix(frame: pd.DataFrame, max_risk: int) -> pd.DataFrame:

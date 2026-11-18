@@ -9,7 +9,7 @@ import pandas as pd
 from voz_da_terra.constants import DEC_COLS, decendio_label
 from voz_da_terra.metrics import (
     filter_scope, municipality_ranking, municipality_window_matrix,
-    recommended_decendios,
+    recommended_decendios, search_municipalities,
     period_coverage, soil_period_heatmap,
 )
 
@@ -73,6 +73,12 @@ class MetricsTests(unittest.TestCase):
     def test_recommended_decendios_ignores_zero_codes(self):
         self.assertEqual([28, 29, 30], recommended_decendios(self.frame))
         self.assertEqual([], recommended_decendios(self.frame.iloc[0:0]))
+
+    def test_search_municipality_handles_accents_and_multiple_names(self):
+        cities = ["Uberaba", "Uberlândia", "São Lourenço", "Belo Horizonte"]
+        self.assertEqual(["São Lourenço"], search_municipalities(cities, "sao lourenco"))
+        self.assertEqual(["Uberaba", "Uberlândia"], search_municipalities(cities, "uberaba, uberlandia"))
+        self.assertEqual([], search_municipalities(cities, ""))
 
     def test_label(self):
         self.assertIn("out", decendio_label(28))

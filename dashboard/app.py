@@ -15,7 +15,8 @@ from voz_da_terra.constants import (
 )
 from voz_da_terra.metrics import (
     filter_scope, load_processed, municipality_ranking, recommended_decendios,
-    municipality_window_matrix, period_coverage, soil_period_heatmap,
+    municipality_window_matrix, period_coverage, search_municipalities,
+    soil_period_heatmap,
 )
 
 
@@ -37,7 +38,7 @@ def read_audit(path: str) -> dict:
 
 
 st.title("🌱 Voz da Terra")
-st.subheader("Janelas de plantio do feijão de sequeiro em Minas Gerais")
+st.markdown("**Consulte as janelas de plantio do feijão de sequeiro em Minas Gerais.**")
 st.caption("Safra 2026/2027 | Dados públicos do MAPA | Unidade territorial: município")
 
 if not CURATED_PATH.exists() or not AUDIT_PATH.exists():
@@ -56,54 +57,74 @@ st.info(
     "A indicação depende também do solo e do grupo de cultivar da propriedade."
 )
 
-st.sidebar.header("Filtros da análise")
-max_risk = st.sidebar.select_slider(
-    "Risco climático máximo considerado",
-    options=[20, 30, 40],
-    value=20,
-    format_func=lambda value: f"Até {value}%",
-)
 soil_codes = sorted(data["Cod_Solo"].unique())
-selected_soils = st.sidebar.multiselect(
-    "Água disponível no solo (vazio = todas)",
-    options=soil_codes,
-    format_func=lambda code: SOIL_LABELS.get(code, f"Solo {code}"),
-    placeholder="Todas as classes de solo",
-    help="AD1 tem menor disponibilidade de água, AD6 tem maior. A classificação exige análise do solo.",
-)
-with st.sidebar.expander("O que são AD1 a AD6?"):
-    st.markdown(
-        "**AD significa água disponível no solo:** quantidade de água que o solo "
-        "consegue armazenar e oferecer às plantas. **AD1** representa a menor "
-        "disponibilidade e **AD6**, a maior. Não é uma nota de qualidade da terra."
-    )
-    for code in soil_codes:
-        st.caption(f"**{SOIL_LABELS.get(code, code)}:** {SOIL_AD_RANGES.get(code, 'Consultar portaria')}")
-    st.markdown(f"[Como identificar a classe do seu solo — MAPA]({SOIL_CLASSIFICATION_URL})")
 cycle_codes = sorted(data["Cod_Ciclo"].unique())
-selected_cycles = st.sidebar.multiselect(
-    "Grupos de cultivar (vazio = todos)",
-    options=cycle_codes,
-    format_func=lambda code: CYCLE_LABELS.get(code, code),
-    placeholder="Todos os grupos de cultivar",
-)
-selected_cities = st.sidebar.multiselect(
-    "Municípios (vazio = todos)",
-    options=sorted(data["municipio"].unique()),
-    placeholder="Todos os municípios",
-)
 active_decendios = recommended_decendios(data)
 if not active_decendios:
     st.error("A base não contém decêndios com indicação do ZARC neste recorte.")
     st.stop()
-range_start, range_end = st.sidebar.slider(
-    "Intervalo de decêndios com indicação",
-    min_value=min(active_decendios),
-    max_value=max(active_decendios),
-    value=(min(active_decendios), max(active_decendios)),
-    help="O intervalo é calculado a partir dos períodos com alguma indicação na base, "
-    "antes dos filtros de solo, cultivar e município. No recorte atual: 28–36.",
-)
+
+st.markdown("### Faça sua consulta")
+with st.expander("🔎 Buscar e ajustar filtros", expanded=True):
+    city_query = st.text_input(
+        "1. Município (opcional)",
+        placeholder="Ex.: Uberaba ou Uberaba, Uberlândia",
+        help="Digite parte do nome. Para comparar vários municípios, separe os nomes por vírgulas. "
+        "Deixe vazio para considerar todo o estado.",
+    )
+    selected_cities = search_municipalities(data["municipio"].unique(), city_query)
+    if city_query.strip():
+        if selected_cities:
+            preview = ", ".join(selected_cities[:4])
+            remaining = len(selected_cities) - 4
+            extra = f" e mais {remaining}" if remaining > 0 else ""
+            st.caption(f"{len(selected_cities)} município(s) encontrado(s): {preview}{extra}.")
+            if len(selected_cities) > 10:
+                st.caption("Para uma consulta mais específica, digite mais letras do nome.")
+        else:
+            st.warning("Nenhum município encontrado. Confira a escrita ou limpe o campo.")
+
+    max_risk = st.radio(
+        "2. Limite máximo de risco considerado",
+        options=[20, 30, 40],
+        index=0,
+        format_func=lambda value: f"Até {value}%",
+        horizontal=True,
+        help="Os códigos de risco vêm do ZARC. Selecionar um limite maior não é recomendação para aceitar mais risco.",
+    )
+    selected_soils = st.pills(
+        "3. Água disponível no solo (sem seleção = todas)",
+        options=soil_codes,
+        selection_mode="multi",
+        format_func=lambda code: SOIL_LABELS.get(code, f"Solo {code}"),
+        help="Toque nas classes desejadas. AD1 tem menor disponibilidade de água; AD6, maior.",
+    )
+    selected_cycles = st.pills(
+        "4. Grupo de cultivar (sem seleção = todos)",
+        options=cycle_codes,
+        selection_mode="multi",
+        format_func=lambda code: CYCLE_LABELS.get(code, code),
+    )
+    range_start, range_end = st.slider(
+        "5. Período do calendário (decêndios)",
+        min_value=min(active_decendios),
+        max_value=max(active_decendios),
+        value=(min(active_decendios), max(active_decendios)),
+        help="Apenas os decêndios com alguma indicação no recorte aparecem neste intervalo.",
+    )
+
+with st.expander("Entenda as classes AD1 a AD6"):
+    st.markdown(
+        "**AD significa água disponível no solo:** quantidade de água que o solo consegue "
+        "armazenar e oferecer às plantas. **AD1** representa a menor disponibilidade e "
+        "**AD6**, a maior. Não é uma nota de qualidade da terra."
+    )
+    for code in soil_codes:
+        st.caption(f"**{SOIL_LABELS.get(code, code)}:** {SOIL_AD_RANGES.get(code, 'Consultar portaria')}")
+    st.markdown(f"[Como identificar a classe do seu solo — MAPA]({SOIL_CLASSIFICATION_URL})")
+
+if city_query.strip() and not selected_cities:
+    st.stop()
 
 filtered = filter_scope(
     data,
@@ -127,6 +148,18 @@ municipalities_total = int(filtered["geocodigo"].nunique())
 municipalities_eligible = int(visible.any(axis=1).sum())
 active_periods = int(periods["municipios"].gt(0).sum())
 
+if len(selected_cities) == 1:
+    st.markdown(
+        f"**Resultado para {selected_cities[0]}:** "
+        f"{active_periods} período(s) com alguma indicação até {max_risk}% "
+        "nas condições selecionadas."
+    )
+else:
+    st.markdown(
+        f"**Resumo:** {municipalities_eligible} de {municipalities_total} municípios "
+        f"da consulta têm alguma indicação até {max_risk}% no período escolhido."
+    )
+
 col1, col2, col3 = st.columns(3)
 col1.metric("Municípios no filtro", f"{municipalities_total:,}".replace(",", "."))
 col2.metric("Com ao menos uma indicação", f"{municipalities_eligible:,}".replace(",", "."))
@@ -146,54 +179,52 @@ fig_line = px.line(
     labels={"decendio": "Decêndio", "municipios": "Municípios com indicação"},
     color_discrete_sequence=["#137B62"],
 )
-fig_line.update_layout(height=340, hovermode="x unified", margin=dict(l=10, r=10, t=10, b=10))
+fig_line.update_layout(height=320, hovermode="x unified", margin=dict(l=10, r=10, t=10, b=10))
 fig_line.update_xaxes(dtick=1)
-st.plotly_chart(fig_line, use_container_width=True)
+st.plotly_chart(fig_line, use_container_width=True, config={"displayModeBar": False})
 st.caption("Série dos períodos indicados pela portaria; não é histórico meteorológico.")
 
-left, right = st.columns(2, gap="large")
-with left:
-    st.markdown("### 2. Ranking municipal")
-    ranking_top = ranking[ranking["decendios_indicados"].gt(0)].head(15)
-    if ranking_top.empty:
-        st.warning("Não há municípios com recomendações neste nível de risco e intervalo.")
-    else:
-        fig_bar = px.bar(
-            ranking_top.sort_values("decendios_indicados"),
-            x="decendios_indicados",
-            y="municipio",
-            orientation="h",
-            labels={
-                "decendios_indicados": "Decêndios com indicação",
-                "municipio": "Município",
-            },
-            color_discrete_sequence=["#4361AA"],
-        )
-        fig_bar.update_layout(height=480, margin=dict(l=10, r=10, t=10, b=10))
-        st.plotly_chart(fig_bar, use_container_width=True)
-    st.caption("Ranking por número de períodos, não por produção agrícola.")
+st.markdown("### 2. Municípios com mais períodos indicados")
+ranking_top = ranking[ranking["decendios_indicados"].gt(0)].head(10)
+if ranking_top.empty:
+    st.warning("Não há municípios com recomendações neste nível de risco e intervalo.")
+else:
+    fig_bar = px.bar(
+        ranking_top.sort_values("decendios_indicados"),
+        x="decendios_indicados",
+        y="municipio",
+        orientation="h",
+        labels={
+            "decendios_indicados": "Decêndios com indicação",
+            "municipio": "Município",
+        },
+        color_discrete_sequence=["#4361AA"],
+    )
+    fig_bar.update_layout(height=420, margin=dict(l=10, r=10, t=10, b=10))
+    fig_bar.update_yaxes(automargin=True)
+    st.plotly_chart(fig_bar, use_container_width=True, config={"displayModeBar": False})
+st.caption("Ranking por número de períodos, não por produção agrícola.")
 
-with right:
-    st.markdown("### 3. Disponibilidade por tipo de solo")
-    if heatmap.empty:
-        st.warning("Sem solos disponíveis nos filtros selecionados.")
-    else:
-        fig_heat = go.Figure(data=go.Heatmap(
-            z=heatmap.to_numpy(dtype=int),
-            x=[int(c[3:]) for c in heatmap.columns],
-            y=heatmap.index.tolist(),
-            colorscale="YlGnBu",
-            colorbar=dict(title="Municípios"),
-            hovertemplate="Solo %{y}<br>Decêndio %{x}<br>Municípios %{z}<extra></extra>",
-        ))
-        fig_heat.update_layout(
-            height=480,
-            xaxis_title="Decêndio",
-            yaxis_title="Classe de água disponível no solo",
-            margin=dict(l=10, r=10, t=10, b=10),
-        )
-        st.plotly_chart(fig_heat, use_container_width=True)
-    st.caption("Cada célula conta municípios únicos para a classe de solo indicada.")
+st.markdown("### 3. Indicações por classe de solo")
+if heatmap.empty:
+    st.warning("Sem solos disponíveis nos filtros selecionados.")
+else:
+    fig_heat = go.Figure(data=go.Heatmap(
+        z=heatmap.to_numpy(dtype=int),
+        x=[int(c[3:]) for c in heatmap.columns],
+        y=heatmap.index.tolist(),
+        colorscale="YlGnBu",
+        colorbar=dict(title="Municípios"),
+        hovertemplate="Solo %{y}<br>Decêndio %{x}<br>Municípios %{z}<extra></extra>",
+    ))
+    fig_heat.update_layout(
+        height=380,
+        xaxis_title="Decêndio",
+        yaxis_title="Água disponível no solo",
+        margin=dict(l=10, r=10, t=10, b=10),
+    )
+    st.plotly_chart(fig_heat, use_container_width=True, config={"displayModeBar": False})
+st.caption("Cada célula conta municípios únicos para a classe de solo indicada.")
 
 st.markdown("### Três insights a partir dos filtros")
 if periods["municipios"].max() > 0:

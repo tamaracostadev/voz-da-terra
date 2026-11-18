@@ -39,9 +39,10 @@ O **Voz da Terra** organiza janelas oficiais do ZARC em um painel com consulta p
 - Pipeline **Pandas** para validar, filtrar e curar o CSV original.
 - Módulo analítico **NumPy + Matplotlib**: estatística descritiva e hipótese exploratória.
 - Dashboard **Streamlit + Plotly**: filtros, KPIs, gráficos de linha, barras e mapa de calor.
+- Layout reorganizado para consulta pelo **celular**: busca por município, opções por toque e gráficos empilhados. **Responsividade técnica implementada; acessibilidade com produtores ainda precisa ser validada.**
 - Arquivo curado comprimido e metadados auditáveis no repositório.
 
-**Evidência para inserir:** captura real do Streamlit, com filtros à vista. Não usar imagens geradas artificialmente como captura do produto.
+**Evidência para inserir:** capturas reais do Streamlit em computador **e no navegador de um celular**, com filtros à vista. Não usar imagens geradas artificialmente como captura do produto.
 
 ## Slide 7 — Três descobertas dos dados
 
@@ -100,6 +101,7 @@ flowchart TD
 - [ ] Confirmar exigências, limite de páginas e critérios da turma com a documentação da disciplina.
 - [ ] Preencher capa, nomes completos e RMs de todos os membros.
 - [ ] Rodar `streamlit run dashboard/app.py` e capturar imagem real das três visualizações.
+- [ ] Abrir o painel no navegador de um celular e conferir filtros, legibilidade e gráficos; ajustar caso haja corte de texto.
 - [ ] Distribuir gráficos com legendas e fontes verificáveis; revisar o texto para caber no template.
 - [ ] Preparar PDF final dos slides conforme o portal pedir.
 - [ ] Gravar pitch **com até cinco minutos**, publicar com a visibilidade exigida e inserir o link.
