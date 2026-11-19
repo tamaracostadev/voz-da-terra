@@ -1,0 +1,180 @@
+{
+  "captured_at": "2026-11-19T01:24:08.910Z",
+  "source_commit": "ee63c97ef7864c3fcd26edf110de854f3850582b",
+  "source_url": "http://127.0.0.1:8502",
+  "playwright": "1.65.1",
+  "browser": "Chromium 159.0.8154.6",
+  "filters": {
+    "municipalities": [],
+    "max_risk": 20,
+    "soil_codes": [],
+    "cycle_codes": [],
+    "decendios": [
+      28,
+      36
+    ]
+  },
+  "captures": [
+    {
+      "file": "desktop.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "device_scale_factor": 1
+      },
+      "main": {
+        "scroll_width": 1440,
+        "client_width": 1440,
+        "scroll_height": 2249,
+        "client_height": 1000,
+        "scroll_top": 0
+      },
+      "filters_position": "fixed",
+      "comparison_direction": "row",
+      "chart_count": 3,
+      "metrics": [
+        "853",
+        "663",
+        "9 / 9"
+      ],
+      "image": {
+        "width": 1440,
+        "height": 1000,
+        "bytes": 104708,
+        "sha256": "b0b2f8417ab37b964fe49be91f8d8e71a46aa133ae2adb55742b3679739e462f"
+      }
+    },
+    {
+      "file": "desktop-completo.png",
+      "viewport": {
+        "width": 1440,
+        "height": 2249,
+        "device_scale_factor": 1
+      },
+      "main": {
+        "scroll_width": 1440,
+        "client_width": 1440,
+        "scroll_height": 2249,
+        "client_height": 2249,
+        "scroll_top": 0
+      },
+      "filters_position": "fixed",
+      "comparison_direction": "row",
+      "chart_count": 3,
+      "metrics": [
+        "853",
+        "663",
+        "9 / 9"
+      ],
+      "image": {
+        "width": 1440,
+        "height": 2249,
+        "bytes": 210696,
+        "sha256": "3d23f258559f4f14ad86877c10c7e1df892be10b095cf15c18da1dacdcbb167c"
+      }
+    },
+    {
+      "file": "mobile.png",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "device_scale_factor": 3
+      },
+      "main": {
+        "scroll_width": 390,
+        "client_width": 390,
+        "scroll_height": 4133,
+        "client_height": 844,
+        "scroll_top": 0
+      },
+      "filters_position": "static",
+      "comparison_direction": "column",
+      "chart_count": 3,
+      "metrics": [
+        "853",
+        "663",
+        "9 / 9"
+      ],
+      "image": {
+        "width": 1170,
+        "height": 2532,
+        "bytes": 191722,
+        "sha256": "eab8a01b946c083528e5e75d485291595d5295d51405f594aca9880bf951b498"
+      }
+    },
+    {
+      "file": "mobile-resultados.png",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "device_scale_factor": 3
+      },
+      "main": {
+        "scroll_width": 390,
+        "client_width": 390,
+        "scroll_height": 4133,
+        "client_height": 844,
+        "scroll_top": 973
+      },
+      "filters_position": "static",
+      "comparison_direction": "column",
+      "chart_count": 3,
+      "metrics": [
+        "853",
+        "663",
+        "9 / 9"
+      ],
+      "image": {
+        "width": 1170,
+        "height": 2532,
+        "bytes": 155878,
+        "sha256": "cb51ca8087459697191adfb5936648d280fe381f9e774f533098a2af97fb3e70"
+      }
+    },
+    {
+      "file": "mobile-completo.png",
+      "viewport": {
+        "width": 390,
+        "height": 4133,
+        "device_scale_factor": 3
+      },
+      "main": {
+        "scroll_width": 390,
+        "client_width": 390,
+        "scroll_height": 4133,
+        "client_height": 4133,
+        "scroll_top": 0
+      },
+      "filters_position": "static",
+      "comparison_direction": "column",
+      "chart_count": 3,
+      "metrics": [
+        "853",
+        "663",
+        "9 / 9"
+      ],
+      "image": {
+        "width": 1170,
+        "height": 12399,
+        "bytes": 834945,
+        "sha256": "c98103913ad498bed9fc31c0ec1d81bba49a4343cbe5b486e7a0b84b8005e7e7"
+      }
+    }
+  ],
+  "checks": {
+    "desktop_sidebar_and_parallel_charts": true,
+    "mobile_inline_filters_and_stacked_charts": true,
+    "multiselect_second_click_closes": true,
+    "municipality_selection_survives_resize": true,
+    "clear_municipalities_restores_all_853": true,
+    "mobile_touch_dropdown_toggle": true,
+    "no_javascript_page_errors": true,
+    "no_horizontal_overflow_in_captures": true
+  },
+  "page_errors": [],
+  "notes": [
+    "Mobile uses Chromium with a 390x844 CSS-pixel viewport, touch and mobile emulation; it is not a physical device or Safari test.",
+    "Complete captures use a taller viewport at the same width to fit the Streamlit internal scroll container. No application DOM, CSS or data was changed.",
+    "Segoe UI Emoji was made available to Chromium through a temporary fontconfig file for the title icon."
+  ]
+}
