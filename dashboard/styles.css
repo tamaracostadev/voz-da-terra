@@ -1,3 +1,11 @@
+[data-testid="stHeaderLogo"] {
+    height: 3rem;
+    max-height: 3rem;
+    width: auto;
+    max-width: calc(100vw - 14rem);
+    object-fit: contain;
+}
+
 /* Um único conjunto de widgets mantém as seleções ao mudar a largura da tela. */
 .st-key-dashboard_filters {
     padding: 1.25rem;

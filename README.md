@@ -71,6 +71,7 @@ O ETL lê o CSV em **blocos**, valida campos e códigos de decêndio, exclui reg
 
 ```text
 dashboard/app.py                Aplicação interativa Streamlit + Plotly
+dashboard/assets/              Logo e recursos visuais do painel
 src/voz_da_terra/pipeline.py   Auditoria nacional e ETL em blocos (Pandas)
 src/voz_da_terra/metrics.py    Indicadores e regras de agregação municipal
 src/voz_da_terra/analysis.py   Estatística NumPy e gráficos Matplotlib

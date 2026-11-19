@@ -1,6 +1,37 @@
 {
-  "captured_at": "2026-11-19T01:24:08.910Z",
-  "source_commit": "ee63c97ef7864c3fcd26edf110de854f3850582b",
+  "captured_at": "2026-11-19T02:46:15.508Z",
+  "source_commit": "8279a39ffc06091521c8f302bceef567571c48d5",
+  "source_worktree_dirty": true,
+  "source_files": [
+    {
+      "path": "dashboard/app.py",
+      "sha256": "71c359af6d3b12096f80693e22907f9390a2977c4eab08af3ebf67a505700d01"
+    },
+    {
+      "path": "dashboard/styles.css",
+      "sha256": "067a6e80476e9c65551ec3a4ab390519b56114cc22f55ba1a4c6b71b89f4f260"
+    },
+    {
+      "path": "dashboard/multiselect_toggle.html",
+      "sha256": "5948d55dfd3acd9f6925f33d73009e36526b8be80d15e5a8d875881a170b5d65"
+    },
+    {
+      "path": "dashboard/assets/logo_voz_da_terra_horizontal.png",
+      "sha256": "bee9145add62072f52a918cd2a5e5d045c3a4488c7859ad07e92305da05880c6"
+    },
+    {
+      "path": ".streamlit/config.toml",
+      "sha256": "d67d96067893c265c9bc8579685fc22081534fcff66d47b6f3fc8a146a8effe0"
+    },
+    {
+      "path": "data/processed/zarc_feijao_mg_sequeiro.csv.gz",
+      "sha256": "18074e0226213fac572369828d744407178a57f8740833c69efbfe97e6573fe6"
+    },
+    {
+      "path": "reports/auditoria.json",
+      "sha256": "210fb8396d5ce894d468368600f14ae02a3bd7146e51b1e924a5309bae3e7701"
+    }
+  ],
   "source_url": "http://127.0.0.1:8502",
   "playwright": "1.65.1",
   "browser": "Chromium 159.0.8154.6",
@@ -29,6 +60,43 @@
         "client_height": 1000,
         "scroll_top": 0
       },
+      "navbar": {
+        "logo_loaded": true,
+        "logo_visible": true,
+        "logo_rect": {
+          "x": 16,
+          "y": 6,
+          "width": 148.078125,
+          "height": 48,
+          "top": 6,
+          "right": 164.078125,
+          "bottom": 54,
+          "left": 16
+        },
+        "logo_natural_width": 1234,
+        "logo_natural_height": 400,
+        "header_rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 60,
+          "top": 0,
+          "right": 1440,
+          "bottom": 60,
+          "left": 0
+        },
+        "menu_rect": {
+          "x": 1394,
+          "y": 15.5,
+          "width": 28,
+          "height": 28,
+          "top": 15.5,
+          "right": 1422,
+          "bottom": 43.5,
+          "left": 1394
+        },
+        "toolbar_scroll_width": 1440
+      },
       "filters_position": "fixed",
       "comparison_direction": "row",
       "chart_count": 3,
@@ -40,8 +108,8 @@
       "image": {
         "width": 1440,
         "height": 1000,
-        "bytes": 104708,
-        "sha256": "b0b2f8417ab37b964fe49be91f8d8e71a46aa133ae2adb55742b3679739e462f"
+        "bytes": 108508,
+        "sha256": "59094bc6a249a3d6c9688993fd4cf63a1551f7d9136e1ad8acbffe3e7c6ee236"
       }
     },
     {
@@ -58,6 +126,43 @@
         "client_height": 2249,
         "scroll_top": 0
       },
+      "navbar": {
+        "logo_loaded": true,
+        "logo_visible": true,
+        "logo_rect": {
+          "x": 16,
+          "y": 6,
+          "width": 148.078125,
+          "height": 48,
+          "top": 6,
+          "right": 164.078125,
+          "bottom": 54,
+          "left": 16
+        },
+        "logo_natural_width": 1234,
+        "logo_natural_height": 400,
+        "header_rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 60,
+          "top": 0,
+          "right": 1440,
+          "bottom": 60,
+          "left": 0
+        },
+        "menu_rect": {
+          "x": 1394,
+          "y": 15.5,
+          "width": 28,
+          "height": 28,
+          "top": 15.5,
+          "right": 1422,
+          "bottom": 43.5,
+          "left": 1394
+        },
+        "toolbar_scroll_width": 1440
+      },
       "filters_position": "fixed",
       "comparison_direction": "row",
       "chart_count": 3,
@@ -69,8 +174,8 @@
       "image": {
         "width": 1440,
         "height": 2249,
-        "bytes": 210696,
-        "sha256": "3d23f258559f4f14ad86877c10c7e1df892be10b095cf15c18da1dacdcbb167c"
+        "bytes": 214611,
+        "sha256": "f92e783ebae3e61b260e6e0bf1fa99a08fc220eb75fe474d94e3113ac2c65ec5"
       }
     },
     {
@@ -87,6 +192,43 @@
         "client_height": 844,
         "scroll_top": 0
       },
+      "navbar": {
+        "logo_loaded": true,
+        "logo_visible": true,
+        "logo_rect": {
+          "x": 16,
+          "y": 6,
+          "width": 148.078125,
+          "height": 48,
+          "top": 6,
+          "right": 164.078125,
+          "bottom": 54,
+          "left": 16
+        },
+        "logo_natural_width": 1234,
+        "logo_natural_height": 400,
+        "header_rect": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 60,
+          "top": 0,
+          "right": 390,
+          "bottom": 60,
+          "left": 0
+        },
+        "menu_rect": {
+          "x": 344,
+          "y": 15.5,
+          "width": 28,
+          "height": 28,
+          "top": 15.5,
+          "right": 372,
+          "bottom": 43.5,
+          "left": 344
+        },
+        "toolbar_scroll_width": 390
+      },
       "filters_position": "static",
       "comparison_direction": "column",
       "chart_count": 3,
@@ -98,8 +240,8 @@
       "image": {
         "width": 1170,
         "height": 2532,
-        "bytes": 191722,
-        "sha256": "eab8a01b946c083528e5e75d485291595d5295d51405f594aca9880bf951b498"
+        "bytes": 205083,
+        "sha256": "55be208537f8c4928b4402d4e290acb9f994e4142f711643bc8812933292f80c"
       }
     },
     {
@@ -116,6 +258,43 @@
         "client_height": 844,
         "scroll_top": 973
       },
+      "navbar": {
+        "logo_loaded": true,
+        "logo_visible": true,
+        "logo_rect": {
+          "x": 16,
+          "y": 6,
+          "width": 148.078125,
+          "height": 48,
+          "top": 6,
+          "right": 164.078125,
+          "bottom": 54,
+          "left": 16
+        },
+        "logo_natural_width": 1234,
+        "logo_natural_height": 400,
+        "header_rect": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 60,
+          "top": 0,
+          "right": 390,
+          "bottom": 60,
+          "left": 0
+        },
+        "menu_rect": {
+          "x": 344,
+          "y": 15.5,
+          "width": 28,
+          "height": 28,
+          "top": 15.5,
+          "right": 372,
+          "bottom": 43.5,
+          "left": 344
+        },
+        "toolbar_scroll_width": 390
+      },
       "filters_position": "static",
       "comparison_direction": "column",
       "chart_count": 3,
@@ -127,8 +306,8 @@
       "image": {
         "width": 1170,
         "height": 2532,
-        "bytes": 155878,
-        "sha256": "cb51ca8087459697191adfb5936648d280fe381f9e774f533098a2af97fb3e70"
+        "bytes": 169251,
+        "sha256": "2d05fccb495eea948e34fb4216488cd7b223ee16d3289f58619f81053e3509ae"
       }
     },
     {
@@ -145,6 +324,43 @@
         "client_height": 4133,
         "scroll_top": 0
       },
+      "navbar": {
+        "logo_loaded": true,
+        "logo_visible": true,
+        "logo_rect": {
+          "x": 16,
+          "y": 6,
+          "width": 148.078125,
+          "height": 48,
+          "top": 6,
+          "right": 164.078125,
+          "bottom": 54,
+          "left": 16
+        },
+        "logo_natural_width": 1234,
+        "logo_natural_height": 400,
+        "header_rect": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 60,
+          "top": 0,
+          "right": 390,
+          "bottom": 60,
+          "left": 0
+        },
+        "menu_rect": {
+          "x": 344,
+          "y": 15.5,
+          "width": 28,
+          "height": 28,
+          "top": 15.5,
+          "right": 372,
+          "bottom": 43.5,
+          "left": 344
+        },
+        "toolbar_scroll_width": 390
+      },
       "filters_position": "static",
       "comparison_direction": "column",
       "chart_count": 3,
@@ -156,8 +372,8 @@
       "image": {
         "width": 1170,
         "height": 12399,
-        "bytes": 834945,
-        "sha256": "c98103913ad498bed9fc31c0ec1d81bba49a4343cbe5b486e7a0b84b8005e7e7"
+        "bytes": 847491,
+        "sha256": "9a4ff5944fe47c6cec084875574b496a260aebe1b6e9922dd762b8b4c3a0a6b2"
       }
     }
   ],
@@ -169,12 +385,15 @@
     "clear_municipalities_restores_all_853": true,
     "mobile_touch_dropdown_toggle": true,
     "no_javascript_page_errors": true,
-    "no_horizontal_overflow_in_captures": true
+    "no_horizontal_overflow_in_captures": true,
+    "navbar_logo_loaded_and_visible_in_all_captures": true,
+    "navbar_menu_fits_in_all_captures": true
   },
   "page_errors": [],
   "notes": [
     "Mobile uses Chromium with a 390x844 CSS-pixel viewport, touch and mobile emulation; it is not a physical device or Safari test.",
     "Complete captures use a taller viewport at the same width to fit the Streamlit internal scroll container. No application DOM, CSS or data was changed.",
-    "Segoe UI Emoji was made available to Chromium through a temporary fontconfig file for the title icon."
+    "Segoe UI Emoji was made available to Chromium through a temporary fontconfig file for the title icon.",
+    "source_commit is the base revision. source_worktree_dirty and source_files describe the working files used, including the uncommitted navbar logo changes."
   ]
 }

@@ -8,6 +8,9 @@ venv/
 .streamlit/secrets.toml
 .DS_Store
 
+# Metadados de downloads do Windows (WSL).
+*:Zone.Identifier
+
 # O CSV bruto do MAPA (249 MB) não é versionado.
 data/raw/*
 !data/raw/.gitkeep

@@ -22,10 +22,12 @@ from voz_da_terra.metrics import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
+LOGO_PATH = ROOT / "dashboard" / "assets" / "logo_voz_da_terra_horizontal.png"
 CURATED_PATH = ROOT / "data" / "processed" / "zarc_feijao_mg_sequeiro.csv.gz"
 AUDIT_PATH = ROOT / "reports" / "auditoria.json"
 
 st.set_page_config(page_title="Voz da Terra | ZARC", page_icon="🌱", layout="wide")
+st.logo(str(LOGO_PATH), size="large")
 st.markdown(
     f"<style>{(ROOT / 'dashboard' / 'styles.css').read_text(encoding='utf-8')}</style>",
     unsafe_allow_html=True,
